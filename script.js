@@ -17,7 +17,7 @@ function handleAddTodo() {
 
   todosArray.push(todoObj);
 
-  // front - end --> todos
+  // updating front end with latest todos
   updateUi();
 
   todoInput.value = "";
@@ -30,12 +30,49 @@ function updateUi() {
     const todoDiv = document.createElement("div");
     todoDiv.classList.add("todo");
 
+    if (todosArray[i].isCompleted) {
+      todoDiv.classList.add("completed-todo");
+    }
+
     const todoPara = document.createElement("p");
     todoPara.innerText = todosArray[i].title;
 
+    // delete to do button
+    const deleteButton = document.createElement("button");
+    deleteButton.innerText = "Delete";
+    deleteButton.setAttribute("onclick", `deleteTodo(${todosArray[i].id})`);
+
+    // mark as complete button
+    const completeButton = document.createElement("button");
+    completeButton.innerText = "Mark as complete";
+    completeButton.setAttribute("onclick", `completeTodo(${todosArray[i].id})`);
+
     // appending paragraph to todo div
     todoDiv.appendChild(todoPara);
+    todoDiv.appendChild(deleteButton);
+    todoDiv.appendChild(completeButton);
 
     todosWrapper.append(todoDiv);
   }
+}
+
+function deleteTodo(id) {
+  for (let i = 0; i < todosArray.length; i++) {
+    if (todosArray[i].id === id) {
+      todosArray.splice(i, 1);
+      break;
+    }
+  }
+
+  updateUi();
+}
+
+function completeTodo(id) {
+  for (let i = 0; i < todosArray.length; i++) {
+    if (todosArray[i].id === id) {
+      todosArray[i].isCompleted = !todosArray[i].isCompleted;
+    }
+  }
+
+  updateUi();
 }
