@@ -1,7 +1,9 @@
 const todoInput = document.getElementById("todo-input");
 const todosWrapper = document.querySelector(".todos-wrapper");
 
-const todosArray = []; // [{title: "", isCompleted : false, id : }]
+const todosArray = JSON.parse(localStorage.getItem("todosArray")) || []; // [{title: "", isCompleted : false, id : }]
+
+updateUi();
 
 function handleAddTodo() {
   if (!todoInput.value) {
@@ -16,6 +18,8 @@ function handleAddTodo() {
   };
 
   todosArray.push(todoObj);
+
+  localStorage.setItem("todosArray", JSON.stringify(todosArray));
 
   // updating front end with latest todos
   updateUi();
@@ -64,6 +68,8 @@ function deleteTodo(id) {
     }
   }
 
+  localStorage.setItem("todosArray", JSON.stringify(todosArray));
+
   updateUi();
 }
 
@@ -73,6 +79,7 @@ function completeTodo(id) {
       todosArray[i].isCompleted = !todosArray[i].isCompleted;
     }
   }
+  localStorage.setItem("todosArray", JSON.stringify(todosArray));
 
   updateUi();
 }
